@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Flip</title>
+    <script>
+        async function flipCoin() {
+            try {
+                // Send a GET request to the /flip endpoint
+                const response = await fetch('/flip');
+                const data = await response.json();
+                // Display the result
+                document.getElementById('result').innerText = `Result: ${data.result}`;
+            } catch (error) {
+                console.error('Error flipping coin:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Flip a Coin!</h1>
+    <button onclick="flipCoin()">Flip</button>
+    <p id="result"></p>
+</body>
+</html>
