@@ -1,26 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Flip</title>
-    <script>
-        async function flipCoin() {
-            try {
-                // Send a GET request to the /flip endpoint
-                const response = await fetch('/flip');
-                const data = await response.json();
-                // Display the result
-                document.getElementById('result').innerText = `Result: ${data.result}`;
-            } catch (error) {
-                console.error('Error flipping coin:', error);
-            }
-        }
-    </script>
-</head>
-<body>
-    <h1>Flip a Coin!</h1>
-    <button onclick="flipCoin()">Flip</button>
-    <p id="result"></p>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Upload an Image</h1>
+  <form method="POST" enctype="multipart/form-data" class="mt-3">
+    <!-- File Input -->
+    <div class="mb-3">
+      <label for="image_file" class="form-label">Choose an image (jpg, jpeg, png, gif):</label>
+      <input 
+        class="form-control" 
+        type="file" 
+        id="image_file"
+        name="image_file" 
+        accept=".jpg,.jpeg,.png,.gif"
+      >
+    </div>
+    
+    <!-- Preview -->
+    <div class="mb-3">
+      <img 
+        id="preview-image" 
+        src="#" 
+        alt="Image preview..." 
+        class="img-thumbnail" 
+        style="max-width: 300px; display: none;"
+      >
+    </div>
+
+    <!-- Submit Button -->
+    <button id="submit-btn" class="btn btn-primary" type="submit" disabled>
+      Submit
+    </button>
+  </form>
+
+  <script>
+    const imageFileInput = document.getElementById("image_file");
+    const previewImage = document.getElementById("preview-image");
+    const submitBtn = document.getElementById("submit-btn");
+
+    imageFileInput.addEventListener("change", function() {
+      const file = imageFileInput.files[0];
+      if (file) {
+        // Enable the submit button
+        submitBtn.disabled = false;
+
+        // Preview the selected image
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+          previewImage.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      } else {
+        // If no file is selected, hide the preview & disable submit
+        previewImage.style.display = "none";
+        submitBtn.disabled = true;
+      }
+    });
+  </script>
+{% endblock %}
