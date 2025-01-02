@@ -42,21 +42,21 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Get the uploaded file
-        file = request.files.get('slide_file')  # Updated field name
+        file = request.files.get('slide_file')
 
         if file and allowed_file(file.filename):
             # Secure the filename and save it temporarily
             filename = secure_filename(file.filename)
-            temp_dir = os.path.join(BASE_DIR, "temp")  # Create a 'temp' directory inside your project
+            temp_dir = os.path.join(BASE_DIR, "temp")
+            os.makedirs(temp_dir, exist_ok=True)  # Ensure the temp directory exists
             temp_file_path = os.path.join(temp_dir, filename)
             file.save(temp_file_path)
 
             try:
                 # Load and preprocess the image
                 with Image.open(temp_file_path) as img:
-                    img = img.convert("RGB")  # Ensure it's in RGB mode
-                    img_tensor = image_transform(img).unsqueeze(0).to(device)  # Add batch dimension
+                    img = img.convert("RGB")
+                    img_tensor = image_transform(img).unsqueeze(0).to(device)
 
                 # Perform inference
                 with torch.no_grad():
@@ -72,25 +72,17 @@ def index():
                 flash(f"Prediction: {predicted_class} (Confidence: {confidence:.2f}%)", "success")
             except Exception as e:
                 flash(f"Error processing the image: {str(e)}", "danger")
+            finally:
+                # Delete the temporary file
+                if os.path.exists(temp_file_path):
+                    os.remove(temp_file_path)
 
-            # Redirect back to the main page
             return redirect(url_for('index'))
         else:
             flash("Please upload a valid image file (jpg, png, gif).", "danger")
             return redirect(url_for('index'))
 
-    # For GET requests, render the page
     return render_template('index.html')
-
-@app.teardown_request
-def cleanup_temp_files(exception=None):
-    """Delete the temporary file when the session ends or app is stopped."""
-    temp_file_path = session.pop('uploaded_file', None)
-    if temp_file_path and os.path.exists(temp_file_path):
-        try:
-            os.remove(temp_file_path)
-        except OSError:
-            pass  # Ignore errors during file deletion
 
 @app.route('/about')
 def about():
