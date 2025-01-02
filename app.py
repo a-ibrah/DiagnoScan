@@ -16,7 +16,8 @@ app.secret_key = 'yoursecretkey'  # Needed for flash messages
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # Model configuration
-MODEL_PATH = os.path.join("models", "temp_best_model_fold_2.pth")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "temp_best_model_fold_2.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load the trained model
@@ -47,7 +48,7 @@ def index():
         if file and allowed_file(file.filename):
             # Secure the filename and save it temporarily
             filename = secure_filename(file.filename)
-            temp_dir = tempfile.gettempdir()
+            temp_dir = os.path.join(BASE_DIR, "temp")  # Create a 'temp' directory inside your project
             temp_file_path = os.path.join(temp_dir, filename)
             file.save(temp_file_path)
 
