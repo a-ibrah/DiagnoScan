@@ -1,0 +1,161 @@
+/* General Page Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0; /* Darker gray background for the page */
+}
+
+/* Header Container Styling */
+.header-container {
+  display: flex;
+  align-items: center; /* Vertically align logo and navbar */
+  justify-content: space-between;
+  padding: 0 20px; /* Padding for the sides */
+  background-color: #e0e0e0; /* Background color for header */
+}
+
+/* Logo Styling */
+.logo-container img.logo {
+  max-width: 500px; /* Adjust to fit your layout */
+  height: auto; /* Maintain aspect ratio */
+  background-color: transparent; /* Remove white background */
+  padding: 10px; /* Add spacing around the logo */
+  display: block; /* Ensure proper alignment */
+}
+
+/* Custom Navbar Styling */
+.custom-navbar {
+  margin: 0; /* Remove default margin */
+  background-color: #e0e0e0; /* Ensure the navbar matches the header background */
+  border: none; /* Remove any borders */
+  box-shadow: none; /* Remove any shadows */
+}
+
+/* Navigation Items */
+.custom-nav {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.custom-nav-item {
+  margin: 0 10px; /* Horizontal spacing */
+}
+
+.custom-nav-link {
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(to bottom, #61C4DC, #4D9CB0); /* Gradient */
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.custom-nav-link:hover {
+  transform: translateY(-2px); /* Slight lift */
+}
+
+.custom-nav-link.active {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Divider with Gradient Shadow */
+.divider {
+  position: relative;
+  height: 2px;
+  background-color: #ccc;
+  margin: 0;
+}
+
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  z-index: -1;
+}
+
+/* Background Below the Divider */
+.below-divider {
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+/* Flash Messages */
+.custom-alert {
+  margin: 20px;
+}
+
+/* Content Container */
+.content {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 20px;
+}
+
+/* Button Styles */
+.action-btn {
+  width: 275px;
+  height: 60px;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  color: black;
+  border: none;
+  cursor: pointer; /* Add pointer cursor for better UX */
+}
+
+/* Shared Interaction States */
+.action-btn:hover,
+.action-btn:focus,
+.action-btn:active {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  outline: none; /* Remove focus outline */
+}
+
+/* Active State for Selected Buttons */
+.action-btn.active {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  font-weight: bold;
+}
+
+/* Contribute Button Styles */
+.contribute-btn {
+  background-color: #FFB6B6; /* Default pastel red */
+}
+
+.contribute-btn:hover,
+.contribute-btn:focus {
+  background-color: #FFB6B6; /* Maintain background on hover and focus */
+}
+
+.contribute-btn:active,
+.contribute-btn.active {
+  background-color: #FF8080; /* Saturated pastel red on active and when selected */
+}
+
+/* Predict Button Styles */
+.predict-btn {
+  background-color: #FFE4B5; /* Default pastel orange */
+}
+
+.predict-btn:hover,
+.predict-btn:focus {
+  background-color: #FFE4B5; /* Maintain background on hover and focus */
+}
+
+.predict-btn:active,
+.predict-btn.active {
+  background-color: #FFD580; /* Saturated pastel orange on active and when selected */
+}
