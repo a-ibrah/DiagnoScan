@@ -2,7 +2,7 @@ import os
 import tempfile
 import torch
 from torchvision import transforms
-from torchvision.models import resnet18
+from torchvision.models import resnet18, ResNet18_Weights
 import torch.nn.functional as F
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
@@ -21,9 +21,9 @@ MODEL_PATH = os.path.join(BASE_DIR, "models", "temp_best_model_fold_2.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load the trained model
-model = resnet18(pretrained=False)
+model = resnet18(weights=ResNet18_Weights.DEFAULT)
 model.fc = torch.nn.Linear(model.fc.in_features, 3)  # Adjust for your number of classes
-model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+model.load_state_dict(torch.load(MODEL_PATH, map_location=device, weights_only=True))
 model = model.to(device)
 model.eval()
 
