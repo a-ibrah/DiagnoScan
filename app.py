@@ -20,8 +20,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "temp_best_model_fold_2.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-print(f"Loading model from: {MODEL_PATH}")
-
 # Load the trained model
 model = resnet18(weights=ResNet18_Weights.DEFAULT)
 model.fc = torch.nn.Linear(model.fc.in_features, 3)  # Adjust for your number of classes
