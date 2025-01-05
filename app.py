@@ -1,12 +1,14 @@
 import os
 import tempfile
 import torch
+import psutil
 from torchvision import transforms
 from torchvision.models import resnet18, ResNet18_Weights
 import torch.nn.functional as F
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
 from PIL import Image
+from flask import jsonify
 
 # Flask app configuration
 app = Flask(__name__)
@@ -34,55 +36,63 @@ image_transform = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-# Helper function to check file extensions
-def allowed_file(filename):
-    """Check if the filename has an allowed extension."""
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def store_file(file):
+    # Validate the filetype
+    if not file or '.' not in file.filename or \
+            file.filename.rsplit('.', 1)[1].lower() not in ALLOWED_EXTENSIONS:
+        return None, "Invalid file type."
+
+    # Secure the filename and save it temporarily
+    temp_dir = os.path.join(BASE_DIR, "temp")
+    os.makedirs(temp_dir, exist_ok=True)
+    temp_file_path = os.path.join(temp_dir, secure_filename(file.filename))
+    file.save(temp_file_path)
+
+    return temp_file_path, None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         file = request.files.get('slide_file')
+        temp_file_path, error = store_file(file)
 
-        if file and allowed_file(file.filename):
-            # Secure the filename and save it temporarily
-            filename = secure_filename(file.filename)
-            temp_dir = os.path.join(BASE_DIR, "temp")
-            os.makedirs(temp_dir, exist_ok=True)  # Ensure the temp directory exists
-            temp_file_path = os.path.join(temp_dir, filename)
-            file.save(temp_file_path)
+        if error:
+            flash(error, "danger")
+            return jsonify({"error": "File upload failed", "prediction": None, "confidence": None})
 
-            try:
-                # Load and preprocess the image
-                with Image.open(temp_file_path) as img:
-                    img = img.convert("RGB")
-                    img_tensor = image_transform(img).unsqueeze(0).to(device)
+        try:
+            with Image.open(temp_file_path) as img:
+                img = img.convert("RGB")
+                img_tensor = image_transform(img).unsqueeze(0).to(device)
 
-                # Perform inference
-                with torch.no_grad():
-                    outputs = model(img_tensor)
-                    probabilities = F.softmax(outputs, dim=1).squeeze().cpu().numpy()
+            # Perform inference
+            with torch.no_grad():
+                outputs = model(img_tensor)
+                probabilities = F.softmax(outputs, dim=1).squeeze().cpu().numpy()
 
-                # Map classes to names
-                class_names = ["Adenocarcinoma", "Squamous Cell Carcinoma", "Benign Tissue"]
-                predicted_class = class_names[probabilities.argmax()]
-                confidence = probabilities.max() * 100
+            # Save results in variables
+            class_names = ["Adenocarcinoma", "Squamous Cell Carcinoma", "Benign Tissue"]
+            prediction_value = class_names[probabilities.argmax()]
+            confidence_value = probabilities.max() * 100
 
-                # Display the result
-                flash(f"Prediction: {predicted_class} (Confidence: {confidence:.2f}%)", "success")
-            except Exception as e:
-                flash(f"Error processing the image: {str(e)}", "danger")
-            finally:
-                # Delete the temporary file
-                if os.path.exists(temp_file_path):
-                    os.remove(temp_file_path)
+            # Convert confidence to a string with 1 decimal place + '%'
+            confidence_str = f"{confidence_value:.1f}%"
 
-            return redirect(url_for('index'))
-        else:
-            flash("Please upload a valid image file (jpg, png, gif).", "danger")
-            return redirect(url_for('index'))
+            # Return JSON so the front end can update without reloading
+            return jsonify({
+                'prediction': prediction_value,
+                'confidence': confidence_str
+            })
 
-    return render_template('index.html')
+        except Exception as e:
+            print(f"Error processing the image: {str(e)}")
+            return jsonify({'prediction': None, 'confidence': None, 'error': str(e)})
+
+        finally:
+            os.remove(temp_file_path)  # cleanup temp file
+
+    # If it's a GET request, just render the page with defaults
+    return render_template('index.html', prediction=None)
 
 @app.route('/about')
 def about():

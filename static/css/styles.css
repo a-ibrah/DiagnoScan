@@ -159,3 +159,95 @@ body {
 .predict-btn.active {
   background-color: #FFD580; /* Saturated pastel orange on active and when selected */
 }
+
+.upload-box {
+  width: 300px; /* Increased width */
+  height: 200px; /* Added height for better visibility */
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-btn {
+  margin-top: 10px;
+}
+
+/* Center text in status paragraph */
+#slide-status, #pet-status, #ct-status {
+  margin: 5px 0;
+  font-size: 14px;
+  font-style: italic;
+}
+
+#slide-box {
+  position: relative; /* Ensure positioning for absolute elements */
+}
+
+#required-text {
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Base screen styles */
+.screen {
+  display: none; /* All screens hidden by default */
+  animation-duration: 0.5s;
+  animation-fill-mode: both; /* Retain animation's final state */
+  opacity: 0; /* Hidden by default */
+}
+
+/* Active screen styles */
+.screen.active {
+  display: block; /* Show active screen */
+  animation-name: fadeIn; /* Apply fade-in animation */
+  opacity: 1; /* Fully visible */
+}
+
+/* Non-active screens fading out */
+.screen:not(.active) {
+  animation-name: fadeOut;
+}
+
+/* Styling for the "Required for predictions" text */
+#required-text {
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+/* Hide the required text */
+#required-text.hidden {
+  display: none; /* Hides the text */
+}

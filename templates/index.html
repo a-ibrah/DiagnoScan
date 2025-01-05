@@ -1,22 +1,28 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <!-- Main Buttons -->
+<!-- Screen 1: Main Content -->
+<div id="screen-1" class="screen active">
+  
+  <!-- Select Option -->
+  <h3 class="text-center mb-3">Step 1: What Would You Like to Do?</h3>
+
   <div class="d-flex justify-content-center mb-4 gap-3">
     <button id="contribute-btn" class="btn btn-lg action-btn contribute-btn">Contribute to Database</button>
     <button id="predict-btn" class="btn btn-lg action-btn predict-btn">Make Prediction</button>
   </div>
 
-  <!-- File Upload Section -->
+  <!-- File Upload -->
   <div id="upload-section" class="mt-4">
-    <h3 class="text-center mb-3">Upload Files</h3>
+    <h3 class="text-center mb-3">Step 2: Upload Images</h3>
 
     <form id="upload-form" method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data">
       <div class="d-flex justify-content-center gap-5">
         <!-- Slide Upload -->
         <div class="upload-box text-center" id="slide-box">
+          <p id="required-text" class="hidden">* Required for predictions</p>
           <h5>Pathology Slide</h5>
-          <p>Accepted: .jpg, .jpeg, .png, .svs</p>
+          <p>(.jpg, .jpeg, .png, .svs)</p>
           <p id="slide-status">No file uploaded</p>
           <input 
             class="form-control" 
@@ -29,6 +35,7 @@
           >
           <button 
             class="btn btn-secondary btn-sm upload-btn" 
+            type="button"
             onclick="document.getElementById('slide-file').click();">
             Choose File
           </button>
@@ -37,18 +44,19 @@
         <!-- PET Scan Upload -->
         <div class="upload-box text-center" id="pet-box">
           <h5>PET Scan</h5>
-          <p>Accepted: .dicom</p>
+          <p>(.dicom)</p>
           <p id="pet-status">No file uploaded</p>
           <input 
             class="form-control" 
             type="file" 
             id="pet-file" 
             name="pet_file" 
-            accept=".dicom" 
+            accept=".dicom"
             style="display: none;"
           >
           <button 
             class="btn btn-secondary btn-sm upload-btn" 
+            type="button"
             onclick="document.getElementById('pet-file').click();">
             Choose File
           </button>
@@ -57,7 +65,7 @@
         <!-- CT Scan Upload -->
         <div class="upload-box text-center" id="ct-box">
           <h5>CT Scan</h5>
-          <p>Accepted: .dicom</p>
+          <p>(.dicom)</p>
           <p id="ct-status">No file uploaded</p>
           <input 
             class="form-control" 
@@ -69,7 +77,8 @@
           >
           <button 
             class="btn btn-secondary btn-sm upload-btn" 
-            onclick="document.getElementById('ct-file').click();">
+            type="button"
+            onclick="document.getElementById('slide-file').click();">
             Choose File
           </button>
         </div>
@@ -77,86 +86,36 @@
 
       <!-- Submit Button -->
       <div class="text-center mt-4">
-        <button id="submit-btn" class="btn btn-primary btn-lg" type="submit" disabled>
-          Next
+        <button id="submit-btn" class="btn btn-primary btn-lg" type="button">
+          &rarr;
         </button>
       </div>
     </form>
   </div>
+    
+    <!-- Display an error message if an invalid file is uploaded -->
+    {% if error %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+    {% endif %}
+  </div>
 </div>
 
-<script>
-  const contributeBtn = document.getElementById("contribute-btn");
-  const predictBtn = document.getElementById("predict-btn");
-  const slideFileInput = document.getElementById("slide-file");
-  const petFileInput = document.getElementById("pet-file");
-  const ctFileInput = document.getElementById("ct-file");
-  const submitBtn = document.getElementById("submit-btn");
 
-  // Update file status on file change
-  slideFileInput.addEventListener("change", () => {
-    const fileName = slideFileInput.files[0]?.name || "No file uploaded";
-    document.getElementById("slide-status").innerText = fileName;
-  });
+<!-- Screen 2: Contribute Screen -->
+<div id="screen-2" class="screen">
+  <button class="btn btn-secondary" onclick="switchScreen('screen-1')">Go Back</button>
+  <h3 class="text-center">You're on Screen 2!</h3>
+</div>
 
-  petFileInput.addEventListener("change", () => {
-    const fileName = petFileInput.files[0]?.name || "No file uploaded";
-    document.getElementById("pet-status").innerText = fileName;
-  });
-
-  ctFileInput.addEventListener("change", () => {
-    const fileName = ctFileInput.files[0]?.name || "No file uploaded";
-    document.getElementById("ct-status").innerText = fileName;
-  });
-
-  // Enable the "Next" button based on file inputs
-  const fileInputs = [slideFileInput, petFileInput, ctFileInput];
-  fileInputs.forEach((input) => {
-    input.addEventListener("change", () => {
-      const hasFile = fileInputs.some(input => input.files.length > 0);
-      submitBtn.disabled = !hasFile; // Enable only if at least one file is uploaded
-    });
-  });
-
-  // Button logic remains for enabling/disabling required fields
-  contributeBtn.addEventListener("click", () => {
-    contributeBtn.classList.add("active");
-    predictBtn.classList.remove("active");
-    slideFileInput.required = false; // Slide is not required for contributing
-  });
-
-  predictBtn.addEventListener("click", () => {
-    predictBtn.classList.add("active");
-    contributeBtn.classList.remove("active");
-    slideFileInput.required = true; // Slide is required for prediction
-  });
-</script>
-
-<style>
-  .upload-box {
-    width: 300px; /* Increased width */
-    height: 200px; /* Added height for better visibility */
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .upload-btn {
-    margin-top: 10px;
-  }
-
-  /* Center text in status paragraph */
-  #slide-status, #pet-status, #ct-status {
-    margin: 5px 0;
-    font-size: 14px;
-    font-style: italic;
-  }
-</style>
+<!-- Screen 3: Prediction Screen -->
+<div id="screen-3" class="screen">
+  <button class="btn btn-secondary mb-3" onclick="window.location.href='/'">Go Back</button>
+  <div class="text-center">
+    <p><strong>Prediction:</strong> <span id="prediction-text">{{ prediction }}</span></p>
+    <p><strong>Confidence:</strong> <span id="confidence-text"></span></p>
+  </div>
+</div>
 
 {% endblock %}
