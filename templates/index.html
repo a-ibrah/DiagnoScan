@@ -15,8 +15,7 @@
   <!-- File Upload -->
   <div id="upload-section" class="mt-4">
     <h3 class="text-center mb-3">Step 2: Upload Images</h3>
-
-    <form id="upload-form" method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data">
+    <form id="upload-form" method="POST" action="{{ url_for('core_bp.index') }}" enctype="multipart/form-data">
       <div class="d-flex justify-content-center gap-5">
         <!-- Slide Upload -->
         <div class="upload-box text-center" id="slide-box">
@@ -102,15 +101,8 @@
   </div>
 </div>
 
-
-<!-- Screen 2: Contribute Screen -->
+<!-- Screen 2: Prediction Screen -->
 <div id="screen-2" class="screen">
-  <button class="btn btn-secondary" onclick="switchScreen('screen-1')">Go Back</button>
-  <h3 class="text-center">You're on Screen 2!</h3>
-</div>
-
-<!-- Screen 3: Prediction Screen -->
-<div id="screen-3" class="screen">
   <button class="btn btn-secondary mb-3" onclick="window.location.href='/'">Go Back</button>
   <div class="text-center">
     <p><strong>Prediction:</strong> <span id="prediction-text">{{ prediction }}</span></p>

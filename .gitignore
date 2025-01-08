@@ -1,3 +1,6 @@
 venv/
 img_convert.ipynb
 models/
+.env
+uploads/
+__pycache__/

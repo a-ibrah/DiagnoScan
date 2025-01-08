@@ -1,0 +1,326 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #F5F5F7;
+    margin: 0;
+    padding: 20px;
+    color: #1D1D1F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    text-align: left;
+    margin: 0; 
+    margin-bottom: 10px;
+    font-size: 1.5rem; 
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+button {
+    width: 200px;
+    height: 50px;
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.top-left-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+/* Green Circular Check Button */
+#check-button {
+    background-color: #28A745; /* Green color */
+    color: white;
+    width: 50px; /* Equal width and height for perfect circle */
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50%; /* Circular shape */
+    border: none;
+    cursor: pointer;
+    margin-top: 15px; /* Space below the upload box */
+    visibility: hidden; /* Initially hidden */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#check-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Upload Box */
+.upload-box {
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-link {
+    position: fixed; /* Ensures it positions relative to #screen-2 */
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.back-link:hover {
+    background-color: #e0e0e0;
+}
+
+.back-link2 {
+    position: fixed; /* Ensures it positions relative to #screen-2 */
+    top: 10px;          /* Matches the global back button */
+    left: 10px;         /* Matches the global back button */
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+.back-link2:hover {
+    background-color: #e0e0e0;
+}
+
+
+.upload-btn:hover {
+    background-color: #0056b3;
+}
+
+.classify-btn {
+    width: 200px;
+    height: 50px;
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    color: black;
+  }
+  
+  .classify-btn.malignant {
+    background-color: #ffccd5;
+  }
+  
+  .classify-btn.benign {
+    background-color: #ffdccf;
+  }
+  
+  .classify-btn.normal {
+    background-color: #ffedc9;
+  }
+
+/* Collapsible container styles */
+.collapsible-container {
+    width: 800px;
+    margin: 20px auto;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: height 0.3s ease;
+    height: auto;
+}
+
+.table-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #0A84FF; /* Header background */
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.collapse-icon {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.triangle {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #fff;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hidden table content by default */
+.table-content {
+    display: block; /* Initially visible */
+    padding: 15px;
+}
+
+/* Apply nowrap styling globally */
+.nowrap td, .nowrap th {
+    white-space: nowrap;
+}
+
+/* Table styling */
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 1px solid #ddd;
+    margin-top: 0;
+    color: #333; /* Light mode font color */
+    background-color: #fff; /* Table background in light mode */
+}
+
+.styled-table thead th {
+    background-color: #f2f2f2; /* Light gray background for header */
+    color: #333; /* Darker text for contrast */
+    font-weight: bold;
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 2px solid #ddd; /* Bold bottom border */
+}
+
+.styled-table tbody tr td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd; /* Subtle row separation */
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f9f9f9; /* Slight hover effect */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.styled-table tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+.styled-table tbody tr td:last-child {
+    text-align: center; /* Center-align content in the last column */
+}
+
+/* Ensure nowrap styling globally */
+.nowrap td, .nowrap th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Add optional rounded corners for a clean look */
+.styled-table {
+    border-radius: 8px;
+    overflow: hidden; /* Keep the corners clean */
+}
+
+/* Add padding between the dropdown and the table */
+.custom-dropdown-container {
+    margin-bottom: 20px;
+}
+
+.icon-button {
+    background: none; /* Remove default button background */
+    border: none; /* Remove default border */
+    padding: 0; /* Remove extra padding */
+    margin: 0; /* Remove any margin */
+    display: inline-flex; /* Ensure it wraps the icon tightly */
+    align-items: center; /* Center the icon within */
+    justify-content: center; /* Center horizontally */
+    cursor: pointer; /* Make it clickable */
+    height: 24px; /* Set a fixed height */
+    width: 24px; /* Set a fixed width */
+    transition: box-shadow 0.2s ease, transform 0.1s ease, background-color 0.1s ease, opacity 0.1s ease; /* Smooth animations */
+}
+
+.icon-button img {
+    width: 16px; /* Adjust as needed */
+    height: 16px;
+    object-fit: contain; /* Ensure the icon scales proportionally */
+}
+
+/* Hover effect: subtle shadow */
+.icon-button:hover {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for hover effect */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Active effect: darker appearance */
+.icon-button:active {
+    background-color: rgba(0, 0, 0, 0.1); /* Add a semi-transparent dark background */
+    opacity: 3; /* Slightly dim the button */
+    transform: none; /* No movement on click */
+}
+
+#patient-search-bar {
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="file"] {
+    display: none; /* Completely hide the default file input */
+}

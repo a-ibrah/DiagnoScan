@@ -31,11 +31,10 @@
       <nav class="custom-navbar">
         <ul class="custom-nav">
           <li class="custom-nav-item">
-            <a class="custom-nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+            <a class="custom-nav-link {% if request.endpoint == 'core_bp.index' %}active{% endif %}" href="{{ url_for('core_bp.index') }}">Home</a>
           </li>
           <li class="custom-nav-item">
-            <a class="custom-nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About</a>
-          </li>
+            <a class="custom-nav-link {% if request.endpoint == 'core_bp.about' %}active{% endif %}" href="{{ url_for('core_bp.about') }}">About</a>          </li>
         </ul>
       </nav>
     </div>

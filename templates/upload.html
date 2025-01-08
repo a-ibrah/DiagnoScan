@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Pathology Slide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/q_styles.css') }}">
+</head>
+<body>
+    <a href="/" class="back-link">Back</a>
+    <div class="upload-box">
+        <h5>Pathology Slide</h5>
+        <p>(.jpg, .jpeg, .png, .svs)</p>
+        <p id="slide-status">No file uploaded</p>
+        <input 
+            type="file" 
+            id="slide-file" 
+            name="slide_file" 
+            accept=".jpg,.jpeg,.png,.svs"
+        >
+        <button id="upload-btn" class="upload-btn">Choose File</button>
+    </div>
+    <script src="{{ url_for('static', filename='js/q_scripts.js') }}"></script>
+</body>
+</html>

@@ -6,10 +6,10 @@ const ctFileInput = document.getElementById("ct-file");
 const submitBtn = document.getElementById("submit-btn");
 const requiredText = document.getElementById("required-text");
 
-// Function to switch between screens
-function switchScreen(screenId) {
+  // Function to switch between screens
+  function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
-      screen.classList.remove('active');
+        screen.classList.remove('active');
     });
     document.getElementById(screenId).classList.add('active');
   }
@@ -50,35 +50,33 @@ predictBtn.addEventListener("click", () => {
     updateSubmitButtonState();
   });
 
+  // Submit button logic for prediction
   submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-  
+
     const isPredictActive = predictBtn.classList.contains("active");
+    const isContributeActive = contributeBtn.classList.contains("active");
     const slideFileUploaded = slideFileInput.files.length > 0;
-  
+
     if (isPredictActive && slideFileUploaded) {
+        // Prediction logic
         const formData = new FormData(document.getElementById("upload-form"));
-  
+
         const response = await fetch("/", {
             method: "POST",
             body: formData,
         });
-  
-        const data = await response.json(); 
-        // data = { prediction: "...", confidence: "...", [error: "..."] }
-  
-        // Update the DOM text:
+
+        const data = await response.json();
         document.getElementById("prediction-text").textContent = data.prediction ?? '';
         document.getElementById("confidence-text").textContent = data.confidence ?? '';
-  
-        // After setting prediction & confidence, show screen-3:
-        switchScreen("screen-3");
-  
-    } else {
-        // If not predicting or file wasn't uploaded, go to screen 2
+
         switchScreen("screen-2");
+    } else if (isContributeActive) {
+        // Navigate to the contribute page
+        window.location.href = "/contribute";
     }
-  });
+});
 
   // Update file status on file change
     slideFileInput.addEventListener("change", () => {
