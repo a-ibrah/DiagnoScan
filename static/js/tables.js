@@ -1,45 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // File Upload Functionality
-    const fileInput = document.getElementById("slide-file");
-    const slideStatus = document.getElementById("slide-status");
-    const uploadBox = document.querySelector(".upload-box");
-    const submitBtn = document.getElementById("submit-btn");
-
-    if (fileInput && slideStatus && uploadBox) {
-        // Trigger file input click
-        const uploadBtn = document.querySelector(".upload-btn");
-        if (uploadBtn) uploadBtn.addEventListener("click", () => fileInput.click());
-
-        // Handle file selection
-        fileInput.addEventListener("change", () => {
-            const file = fileInput.files[0];
-            slideStatus.textContent = file ? `Selected: ${file.name}` : "No file uploaded";
-        });
-
-        // Handle file upload
-        submitBtn.addEventListener("click", () => {
-            const file = fileInput.files[0];
-            if (!file) {
-            alert("No file selected.");
-            return;
-            }
-        
-            const formData = new FormData();
-            formData.append("file", file);
-
-            fetch("/upload", { method: "POST", body: formData })
-            .then(res => res.json())
-            .then(data => {
-            alert(data.status === "success" ? "File uploaded successfully!" : `Error: ${data.message}`);
-            })
-            .catch(() => alert("An error occurred during upload."))
-            .finally(() => {
-            fileInput.value = ""; // Reset file input
-            slideStatus.textContent = "No file uploaded";
-            });
-        });
-    }
-
+    
       if (document.getElementById("slides-table")) {
         $(document).ready(function () {
             // Initialize DataTable for Queued Slides
@@ -61,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         orderable: false,
                         render: data => {
                             if (typeof data === 'string') {
-                                // Replace underscores with spaces and capitalize each word
                                 return data.split('_')
                                            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
                                            .join(' ');
@@ -212,8 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
             setupPatientSearch(completedTable, completedHeaderCells.eq(1));
             setupTimestampFilter(completedTable, completedHeaderCells.eq(2));  
             
-            // Global variable to store selected row ID
-        let selectedRowId = "";
 
         // Screen Transition Handler for row clicks on Queued Table
         $('#slides-table tbody').on('click', 'tr', function () {
@@ -237,110 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
             $('#screen-1').show();
             $(this).hide();
             $('.back-link').show();
-        });
-
-        $(document).ready(function () {
-            // Elements for classification UI
-            const malignantOptions = $("#malignant-options");
-            const malignantDropdown = $("#malignant-dropdown");
-            const malignantOther = $("#malignant-other");
-            const benignOptions = $("#benign-options");
-            const benignLabel = $("#benign-label");
-            const submitButton = $("#submit-classification");
-
-            let selectedClassification = "";
-
-            // Malignant Neoplasm Click Handler
-            $("#btn-malignant").on("click", function () {
-                malignantOptions.show();
-                benignOptions.hide();
-                submitButton.hide();
-                selectedClassification = "";
-                malignantDropdown.val("");
-                malignantOther.hide();
-            });
-
-            // Benign or Non-Malignant Disease Click Handler
-            $("#btn-benign").on("click", function () {
-                benignOptions.show();
-                malignantOptions.hide();
-                submitButton.hide();
-                selectedClassification = "";
-            });
-
-            // Healthy Tissue Click Handler
-            $("#btn-normal").on("click", function () {
-                malignantOptions.hide();
-                benignOptions.hide();
-                submitButton.show();
-                selectedClassification = "Healthy Tissue";
-            });
-
-            // Malignant Dropdown Change Handler
-            malignantDropdown.on("change", function () {
-                const value = $(this).val();
-                if (value === "other") {
-                    malignantOther.show();
-                } else {
-                    malignantOther.hide();
-                }
-                selectedClassification = value;
-                submitButton.show();
-            });
-
-            // Benign Input Change Handler
-            benignLabel.on("input", function () {
-                const value = $(this).val();
-                selectedClassification = value;
-                submitButton.show();
-            });
-
-            // Submit Button Click Handler
-            submitButton.on("click", function () {
-                if (!selectedRowId) {
-                    alert("No slide selected.");
-                    return;
-                }
-
-                let classification = selectedClassification;
-                if (classification === "other") {
-                    classification = malignantOther.val();
-                }
-
-                if (!classification || classification.trim() === "") {
-                    alert("Please provide a valid classification.");
-                    return;
-                }
-
-                // Send data to backend to update metadata
-                $.ajax({
-                    url: "/update_metadata",
-                    method: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        id: selectedRowId,
-                        classification: classification
-                    }),
-                    success: function (response) {
-                        alert("Classification submitted successfully!");
-
-                        // Hide classification screen and show queue
-                        $("#screen-2").hide();
-                        $("#screen-1").show();
-                        submitButton.hide();
-
-                        // Refresh both tables
-                        $('#slides-table').DataTable().ajax.reload(null, false);
-                        $('#completed-slides-table').DataTable().ajax.reload(null, false);
-
-                        // Reset selectedRowId after submission if needed
-                        selectedRowId = "";
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error updating classification: " + error);
-                    },
-                });
-            });
         });
     });
 }

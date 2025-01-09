@@ -1,109 +1,109 @@
 {% extends "layout.html" %}
 {% block content %}
 
-    <a href="/" class="back-link">Back</a>
-    <!-- Screen 1: Table View -->
-    <div id="screen-1">
-        <div class="collapsible-container">
-            <div class="table-header-bar">
-                <span>Queued Slides</span>
-                <button class="collapse-icon">
-                    <span class="triangle"></span>
-                </button>
-            </div>
-            <div class="table-content">
-                <table id="slides-table" class="styled-table nowrap">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>
-                                Patient Name
-                                <button class="patient-search-icon icon-button">
-                                    <img src="{{ url_for('static', filename='images/search.svg') }}" alt="Search" />
-                                </button>
-                            </th>
-                            <th>
-                                Timestamp
-                                <button class="timestamp-filter icon-button">
-                                    <img src="{{ url_for('static', filename='images/filter.svg') }}" alt="Filter" />
-                                </button>
-                            </th>
-                            <th>Status</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+<a href="/" class="back-link">Back</a>
+<!-- Screen 1: Table View -->
+<div id="screen-1">
+    <div class="collapsible-container">
+        <div class="table-header-bar">
+            <span>Queued Slides</span>
+            <button class="collapse-icon">
+                <span class="triangle"></span>
+            </button>
         </div>
-
-        <!-- Completed Table -->
-        <div class="collapsible-container">
-            <div class="table-header-bar">
-                <span>Completed Slides</span>
-                <button class="collapse-icon">
-                    <span class="triangle"></span>
-                </button>
-            </div>
-            <div class="table-content">
-                <table id="completed-slides-table" class="styled-table nowrap">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>
-                                Patient Name
-                                <button class="patient-search-icon icon-button">
-                                    <img src="{{ url_for('static', filename='images/search.svg') }}" alt="Search" />
-                                </button>
-                            </th>
-                            <th>
-                                Timestamp
-                                <button class="timestamp-filter icon-button">
-                                    <img src="{{ url_for('static', filename='images/filter.svg') }}" alt="Filter" />
-                                </button>
-                            </th>
-                            <th>Classification</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        <div class="table-content">
+            <table id="slides-table" class="styled-table nowrap">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>
+                            Patient Name
+                            <button class="patient-search-icon icon-button">
+                                <img src="{{ url_for('static', filename='images/search.svg') }}" alt="Search" />
+                            </button>
+                        </th>
+                        <th>
+                            Timestamp
+                            <button class="timestamp-filter icon-button">
+                                <img src="{{ url_for('static', filename='images/filter.svg') }}" alt="Filter" />
+                            </button>
+                        </th>
+                        <th>Status</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 
-    <!-- Hidden element to store active timestamp filter data -->
-    <div id="timestamp-filter-active" style="display:none;"></div>
-
-    <!-- Screen 2: Classification View -->
-    <div id="screen-2" style="display: none; position: relative;">
-        <!-- Back Button -->
-        <a id="new-back-button" href="#" class="back-link2">Back</a>
-    
-        <!-- Classification Buttons -->
-        <div class="button-container">
-            <button id="btn-malignant" class="classify-btn malignant">Malignant Neoplasm</button>
-            <button id="btn-benign" class="classify-btn benign">Benign or Other Non-Malignant Disease</button>
-            <button id="btn-normal" class="classify-btn normal">Healthy Tissue</button>
+    <!-- Completed Table -->
+    <div class="collapsible-container">
+        <div class="table-header-bar">
+            <span>Completed Slides</span>
+            <button class="collapse-icon">
+                <span class="triangle"></span>
+            </button>
         </div>
-    
-        <!-- Malignant Dropdown -->
-        <div id="malignant-options" style="display: none; margin-top: 20px;">
-            <label for="malignant-dropdown">Choose a classification:</label>
-            <select id="malignant-dropdown">
-                <option value="adenocarcinoma">Adenocarcinoma</option>
-                <option value="squamous_cell_carcinoma">Squamous Cell Carcinoma</option>
-                <option value="other">Other (Specify)</option>
-            </select>
-            <input type="text" id="malignant-other" placeholder="Specify Other" style="display: none; margin-top: 10px;" />
+        <div class="table-content">
+            <table id="completed-slides-table" class="styled-table nowrap">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>
+                            Patient Name
+                            <button class="patient-search-icon icon-button">
+                                <img src="{{ url_for('static', filename='images/search.svg') }}" alt="Search" />
+                            </button>
+                        </th>
+                        <th>
+                            Timestamp
+                            <button class="timestamp-filter icon-button">
+                                <img src="{{ url_for('static', filename='images/filter.svg') }}" alt="Filter" />
+                            </button>
+                        </th>
+                        <th>Classification</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
-    
-        <!-- Benign Text Field -->
-        <div id="benign-options" style="display: none; margin-top: 20px;">
-            <label for="benign-label">Label the benign condition:</label>
-            <input type="text" id="benign-label" />
-        </div>
-    
-        <!-- Submit Button -->
-        <button id="submit-classification" style="display: none; margin-top: 20px;">Submit</button>
     </div>
+</div>
+
+<!-- Hidden element to store active timestamp filter data -->
+<div id="timestamp-filter-active" style="display:none;"></div>
+
+<!-- Screen 2: Classification View -->
+<div id="screen-2" style="display: none; position: relative;">
+    <!-- Back Button -->
+    <a id="new-back-button" href="#" class="back-link2">Back</a>
+
+    <!-- Classification Buttons -->
+    <div class="button-container">
+        <button id="btn-malignant" class="classify-btn malignant">Malignant Neoplasm</button>
+        <button id="btn-benign" class="classify-btn benign">Benign or Other Non-Malignant Disease</button>
+        <button id="btn-normal" class="classify-btn normal">Healthy Tissue</button>
+    </div>
+
+    <!-- Malignant Dropdown -->
+    <div id="malignant-options" style="display: none; margin-top: 20px;">
+        <label for="malignant-dropdown">Choose a classification:</label>
+        <select id="malignant-dropdown">
+            <option value="adenocarcinoma">Adenocarcinoma</option>
+            <option value="squamous_cell_carcinoma">Squamous Cell Carcinoma</option>
+            <option value="other">Other (Specify)</option>
+        </select>
+        <input type="text" id="malignant-other" placeholder="Specify Other" style="display: none; margin-top: 10px;" />
+    </div>
+
+    <!-- Benign Text Field -->
+    <div id="benign-options" style="display: none; margin-top: 20px;">
+        <label for="benign-label">Label the benign condition:</label>
+        <input type="text" id="benign-label" />
+    </div>
+
+    <!-- Submit Button -->
+    <button id="submit-classification" style="display: none; margin-top: 20px;">Submit</button>
+</div>
 
 {% endblock %}

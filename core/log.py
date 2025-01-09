@@ -1,7 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 
-logging.getLogger('werkzeug').disabled = True
+logging.getLogger('werkzeug').disabled = True  # Disable default werkzeug logger if desired
 
 def configure_logging(app):
     """Set up logging for the Flask app."""
@@ -14,10 +14,19 @@ def configure_logging(app):
     log_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     log_handler.setFormatter(log_format)
 
-    # Attach handler to Flask's default logger
+    # Remove all handlers associated with the app's logger to avoid duplicate logging
+    for handler in list(app.logger.handlers):
+        app.logger.removeHandler(handler)
+
+    # Attach our file handler to Flask's default logger
     app.logger.addHandler(log_handler)
 
-    # Suppress Werkzeug logs (optional)
+    # Set the logger level (optional, based on your needs)
+    app.logger.setLevel(logging.INFO)
+
+    # Configure werkzeug logger separately if needed
     werkzeug_log = logging.getLogger('werkzeug')
-    werkzeug_log.setLevel(logging.WARNING)  # Only log warnings and errors
+    for handler in list(werkzeug_log.handlers):
+        werkzeug_log.removeHandler(handler)  # Remove existing handlers
     werkzeug_log.addHandler(log_handler)
+    werkzeug_log.setLevel(logging.WARNING)  # Only log warnings and errors, adjust as needed
