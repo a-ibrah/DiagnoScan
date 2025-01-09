@@ -4,3 +4,4 @@ models/
 .env
 uploads/
 __pycache__/
+app.log
