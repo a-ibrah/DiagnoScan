@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>View Queue</title>
-  <!-- DataTables and Flatpickr CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/q_styles.css') }}" />
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
+
     <a href="/" class="back-link">Back</a>
     <!-- Screen 1: Table View -->
     <div id="screen-1">
@@ -121,5 +111,5 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="{{ url_for('static', filename='js/q_scripts.js') }}"></script>
-</body>
-</html>
+
+{% endblock %}

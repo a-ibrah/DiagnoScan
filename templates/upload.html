@@ -1,25 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Pathology Slide</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/q_styles.css') }}">
-</head>
-<body>
-    <a href="/" class="back-link">Back</a>
-    <div class="upload-box">
-        <h5>Pathology Slide</h5>
-        <p>(.jpg, .jpeg, .png, .svs)</p>
-        <p id="slide-status">No file uploaded</p>
-        <input 
+{% extends "layout.html" %}
+{% block content %}
+  <a href="/" class="back-link">Back</a>
+  <div id="upload-section" class="mt-4">
+    <form id="upload-form" method="POST" action="{{ url_for('core_bp.upload_page') }}" enctype="multipart/form-data">
+      <div class="d-flex justify-content-center gap-5">
+        <!-- Slide Upload -->
+        <div class="upload-box text-center" id="slide-box">
+          <p id="required-text" class="hidden">* Required for predictions</p>
+          <h5>Pathology Slide</h5>
+          <p>(.jpg, .jpeg, .png, .svs)</p>
+          <p id="slide-status">No file uploaded</p>
+          <input 
+            class="form-control" 
             type="file" 
             id="slide-file" 
             name="slide_file" 
-            accept=".jpg,.jpeg,.png,.svs"
-        >
-        <button id="upload-btn" class="upload-btn">Choose File</button>
-    </div>
-    <script src="{{ url_for('static', filename='js/q_scripts.js') }}"></script>
-</body>
-</html>
+            accept=".jpg,.jpeg,.png,.svs" 
+            style="display: none;"
+            required
+          >
+          <button 
+            class="btn btn-secondary btn-sm upload-btn" 
+            type="button"
+            onclick="document.getElementById('slide-file').click();"
+          >
+            Choose File
+          </button>
+        </div>
+      </div>
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button id="submit-btn" class="btn btn-primary btn-lg" type="button">
+          &rarr;
+        </button>
+      </div>
+    </form>
+  </div>
+  <!-- Include the JavaScript at the end of the body -->
+  <script src="{{ url_for('static', filename='js/q_scripts.js') }}"></script>
+{% endblock %}

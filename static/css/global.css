@@ -1,0 +1,134 @@
+/* GENERAL PAGE LAYOUT */
+   body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+
+  .divider {
+    position: relative;
+    height: 2px;
+    background-color: #ccc;
+    margin: 0;
+  }
+  
+  .divider::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    z-index: -1;
+  }
+  
+  .below-divider {
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+  
+  .custom-alert {
+    margin: 20px;
+  }
+  
+  .content {
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px;
+  }
+
+/* HEADER AND NAVIGATION BAR */
+
+  /* Header Container Styling */
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #e0e0e0;
+  }
+  
+  /* Logo Styling */
+  .logo-container img.logo {
+    max-width: 500px;
+    height: auto;
+    background-color: transparent;
+    padding: 10px;
+    display: block;
+  }
+  
+  /* Custom Navbar Styling */
+  .custom-navbar {
+    margin: 0;
+    background-color: #e0e0e0;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .custom-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .custom-nav-item {
+    margin: 0 10px;
+  }
+  
+  .custom-nav-link {
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(to bottom, #61C4DC, #4D9CB0);
+    padding: 10px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  
+  .custom-nav-link:hover {
+    transform: translateY(-2px);
+  }
+  
+  .custom-nav-link.active {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+/* SCREEN TRANSITIONS AND ANIMATIONS */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  .screen {
+    display: none;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    opacity: 0;
+  }
+  
+  .screen.active {
+    display: block;
+    animation-name: fadeIn;
+    opacity: 1;
+  }
+  
+  .screen:not(.active) {
+    animation-name: fadeOut;
+  }
