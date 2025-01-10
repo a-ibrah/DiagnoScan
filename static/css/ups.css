@@ -1,0 +1,84 @@
+.upload-box {
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .upload-btn {
+    margin-top: 10px;
+  }
+  
+  #slide-status, 
+  #pet-status, 
+  #ct-status {
+    margin: 5px 0;
+    font-size: 14px;
+    font-style: italic;
+  }
+  
+  #slide-box {
+    position: relative;
+  }
+  
+  /* Required text styling */
+  #required-text {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+  }
+
+  #required-text.hidden {
+    display: none;
+  }
+
+  /* Analyze Button */
+.analyze-btn {
+  background-color: #b3d9fd; /* Default inactive color */
+  color: white;
+  font-size: 20px;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: not-allowed; /* Default inactive cursor */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analyze-btn.active {
+  background-color: #68b7ff; /* Active color */
+  cursor: pointer; /* Active cursor */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mt-4 {
+  margin-bottom: 40px !important; /* Space below the button */
+}
+
+  /* Upload Section Mobile Styles */
+@media (max-width: 768px) {
+  #upload-section .d-flex {
+    flex-direction: column; /* Stack boxes vertically */
+    align-items: center; /* Center-align the boxes */
+    gap: 1.5rem; /* Add spacing between the boxes */
+  }
+
+  .upload-box {
+    width: 90%; /* Make the boxes adapt to screen width */
+    max-width: 300px; /* Ensure they don’t grow too large */
+  }
+
+  .upload-btn {
+    width: 80%; /* Adjust button width for better spacing */
+  }
+}

@@ -9,6 +9,7 @@
     color: black;
     border: none;
     cursor: pointer;
+    z-index: 1;
   }
   
   .action-btn:hover,
@@ -50,62 +51,12 @@
     background-color: #FFD580;
   }
   
-  /* ==========================================================================
-     Upload Section & Status Styling
-     ========================================================================== */
-  .upload-box {
-    width: 300px;
-    height: 200px;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .upload-btn {
-    margin-top: 10px;
-  }
-  
-  #slide-status, 
-  #pet-status, 
-  #ct-status {
-    margin: 5px 0;
-    font-size: 14px;
-    font-style: italic;
-  }
-  
-  #slide-box {
-    position: relative;
-  }
-  
-  /* Required text styling */
-  #required-text {
-    color: red;
-    font-size: 14px;
-    margin: 0;
-    position: absolute;
-    top: 5px;
-    left: 10px;
-  }
-  #required-text.hidden {
-    display: none;
-  }
-  
 /* QUERY LABEL/VIEW */
 .buttons-wrapper {
-    position: fixed;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 30px;
     display: flex;
     align-items: center;
     gap: 2rem;
-    z-index: 1000;
   }
 
   /* OR Text Styling */
@@ -159,3 +110,50 @@
     background-color: #68b7ff !important;
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
   }
+
+/* ============ MOBILE ============
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .action-btn {
+    width: 95%; 
+    height: 60px; 
+    font-size: 16px;
+  }
+
+  .buttons-wrapper {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 1rem; /* Reduce spacing between buttons */
+    align-items: center; /* Center buttons */
+  }
+
+  .buttons-wrapper button {
+    width: 95%; /* Wider buttons */
+    height: 120px; /* Reduce fixed height for consistent sizing */
+    padding: 10px 15px; /* Add spacing inside buttons */
+    font-size: 18px; /* Adjust font size */
+    text-align: center; /* Center-align text */
+    white-space: nowrap; /* Prevent small text from wrapping */
+    overflow: hidden; /* Prevent overflow issues */
+    box-sizing: border-box; /* Include padding in width and height */
+  }
+
+  .buttons-wrapper button small {
+    font-size: 14px; /* Adjust small text size */
+    margin-top: 0.3rem;
+    white-space: nowrap; /* Prevent wrapping for small text */
+  }
+
+  .buttons-wrapper .separator {
+    display: block; 
+    font-size: 18px; 
+    font-weight: bold; 
+    margin: 5px;
+    text-align: center; 
+  }
+
+  h3 {
+    font-size: 1.2rem; /* Adjust header size */
+    text-align: center;
+  }
+}
