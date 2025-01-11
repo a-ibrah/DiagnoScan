@@ -20,23 +20,19 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.addEventListener("click", () => {
             const file = fileInput.files[0];
             if (!file) {
-            alert("No file selected.");
-            return;
+                return; // Exit if no file is selected
             }
         
             const formData = new FormData();
             formData.append("file", file);
-
+        
             fetch("/upload", { method: "POST", body: formData })
-            .then(res => res.json())
-            .then(data => {
-            alert(data.status === "success" ? "File uploaded successfully!" : `Error: ${data.message}`);
-            })
-            .catch(() => alert("An error occurred during upload."))
-            .finally(() => {
-            fileInput.value = ""; // Reset file input
-            slideStatus.textContent = "No file uploaded";
-            });
+                .then(res => res.json())
+                .catch(() => {})
+                .finally(() => {
+                    fileInput.value = ""; // Reset file input
+                    slideStatus.textContent = "No file uploaded";
+                });
         });
     }
 });

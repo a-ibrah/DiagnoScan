@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from PIL import Image
 
 # Constants
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svs'}
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "temp_best_model_fold_2.pth")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

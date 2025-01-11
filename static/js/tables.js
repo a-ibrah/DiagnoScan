@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Initialize DataTable for Queued Slides
             const queuedTable = $('#slides-table').DataTable({
                 serverSide: true,
+                order: [[2, "desc"]], 
                 ajax: {
                     url: '/data',
                     data: function (d) {
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Initialize DataTable for Completed Slides
             const completedTable = $('#completed-slides-table').DataTable({
                 serverSide: true,
+                order: [[2, "desc"]],
                 ajax: {
                     url: '/data',
                     data: function (d) {

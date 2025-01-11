@@ -4,6 +4,7 @@ import os
 from .model import validate_file, store_file, predict_image
 from .sql import generate_user_id, save_metadata, fetch_data, update_metadata
 from .drive import upload_photo
+from flask import redirect, url_for
 
 # Initialize Blueprint
 core_bp = Blueprint('core_bp', __name__)
@@ -15,8 +16,12 @@ def index():
     if request.method == 'POST':
         file = request.files.get('slide_file')
         
+        if not file:
+            flash("No file uploaded.", "danger")
+            return jsonify({"error": "File upload failed", "prediction": None, "confidence": None})
+
         if not validate_file(file):
-            flash("Invalid file type.", "danger")
+            flash("Invalid file type. Only .jpg, .jpeg, .png, and .svs are allowed.", "danger")
             return jsonify({"error": "File upload failed", "prediction": None, "confidence": None})
 
         # Save and process the file
@@ -24,12 +29,13 @@ def index():
             temp_file_path = store_file(file)
             prediction_value, confidence_str = predict_image(temp_file_path)
 
-            # Return JSON so the front end can update without reloading
+            # Silent success: No flash for successful predictions
             return jsonify({
                 'prediction': prediction_value,
                 'confidence': confidence_str
             })
         except Exception as e:
+            flash("Error processing the file.", "danger")
             print(f"Error processing the image: {str(e)}")
             return jsonify({'prediction': None, 'confidence': None, 'error': str(e)})
         finally:
@@ -41,25 +47,34 @@ def index():
 
 @core_bp.route("/upload", methods=["POST"])
 def upload():
-    """Handle file upload and save metadata."""
-    uploaded_file = request.files.get('file')
+    # Use the correct key for form submissions
+    uploaded_file = request.files.get('slide_file')
     if not uploaded_file or not uploaded_file.filename:
-        return jsonify({"status": "error", "message": "No file selected"})
+        flash("No file selected.", "danger")
+        return redirect(url_for('core_bp.upload_page'))
 
     user_id = generate_user_id()
     file_extension = os.path.splitext(uploaded_file.filename)[1]
     new_file_name = f"{user_id}{file_extension}"
     file_path = os.path.join(UPLOAD_FOLDER, new_file_name)
-    uploaded_file.save(file_path)
 
-    response = upload_photo(file_path)
-    os.remove(file_path)
+    try:
+        uploaded_file.save(file_path)
+        response = upload_photo(file_path)
 
-    if response["status"] == "success":
-        save_metadata(user_id, new_file_name, response["file_id"])
-        return jsonify({"status": "success", "user_id": user_id, "file_id": response["file_id"]})
-    else:
-        return jsonify(response)
+        if response["status"] == "success":
+            save_metadata(user_id, new_file_name, response["file_id"])
+            flash("File uploaded successfully!", "success")
+        else:
+            flash("File upload failed during processing.", "danger")
+    except Exception as e:
+        flash("An error occurred during upload.", "danger")
+        print(f"Error: {str(e)}")
+    finally:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+    return redirect(url_for('core_bp.upload_page'))
  
 @core_bp.route("/data", methods=["GET"])
 def data():
@@ -74,12 +89,14 @@ def data():
     order_dir = request.args.get('order[0][dir]', default='asc')
     filter_status = request.args.get('filterStatus', default=None)
 
-    rows, total_records = fetch_data(draw, start, length, search_value, patient_search, timestamp_search, order_column, order_dir, filter_status)
+    rows, filtered_total = fetch_data(draw, start, length, search_value, 
+                                      patient_search, timestamp_search, 
+                                      order_column, order_dir, filter_status)
 
     result = {
         "draw": draw,
-        "recordsTotal": total_records,
-        "recordsFiltered": len(rows),
+        "recordsTotal": filtered_total,
+        "recordsFiltered": filtered_total,
         "data": [
             {
                 "id": row[0],
@@ -102,9 +119,11 @@ def update_metadata_route():
     classification = data.get("classification")
 
     if not slide_id or not classification:
+        flash("Invalid data provided for metadata update.", "danger")
         return jsonify({"error": "Invalid data"}), 400
 
     update_metadata(slide_id, classification)
+    flash("Metadata updated successfully!", "success")
     return jsonify({"message": "Metadata updated successfully!"}), 200
 
 @core_bp.route('/about')

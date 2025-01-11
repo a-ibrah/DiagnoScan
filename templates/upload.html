@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-  <a href="/" class="back-link">Back</a>
+  <a href="/" class="btn btn-secondary mb-3">Back</a>
   <div id="upload-section" class="mt-4">
     <form id="upload-form" method="POST" action="{{ url_for('core_bp.upload_page') }}" enctype="multipart/form-data">
       <div class="d-flex justify-content-center gap-5">
@@ -30,7 +30,7 @@
       </div>
       <!-- Submit Button -->
       <div class="text-center mt-4">
-        <button id="submit-btn" class="btn btn-primary btn-lg" type="button">
+        <button id="submit-btn" class="btn btn-primary btn-lg" type="submit">
           &rarr;
         </button>
       </div>

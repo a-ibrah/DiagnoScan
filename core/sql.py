@@ -25,44 +25,54 @@ def fetch_data(draw, start, length, search_value, patient_search, timestamp_sear
     column_map = ['id', 'patient_name', 'upload_timestamp', 'status', 'classification', 'google_drive_id']
     order_column_name = column_map[order_column]
 
-    query = """
-        SELECT id, patient_name, upload_timestamp, status, classification, google_drive_id
-        FROM files WHERE 1=1
-    """
+    # Base query components
+    base_query = " FROM files WHERE 1=1"
+    conditions = ""
     params = []
 
+    # Apply filter status conditions
     if filter_status:
         if filter_status == 'pending':
-            query += " AND status = ?"
+            conditions += " AND status = ?"
             params.append('pending review')
         elif filter_status == 'completed':
-            query += " AND status != ?"
+            conditions += " AND status != ?"
             params.append('pending review')
 
+    # Apply search filters
     if search_value:
-        query += " AND (patient_name LIKE ? OR status LIKE ? OR classification LIKE ?)"
+        conditions += " AND (patient_name LIKE ? OR status LIKE ? OR classification LIKE ?)"
         params.extend([f'%{search_value}%', f'%{search_value}%', f'%{search_value}%'])
 
     if patient_search:
-        query += " AND patient_name LIKE ?"
+        conditions += " AND patient_name LIKE ?"
         params.append(f'%{patient_search}%')
 
     if timestamp_search:
-        query += " AND upload_timestamp LIKE ?"
+        conditions += " AND upload_timestamp LIKE ?"
         params.append(f'%{timestamp_search}%')
 
-    query += f" ORDER BY {order_column_name} {order_dir} LIMIT ? OFFSET ?"
-    params.extend([length, start])
+    # Compute filtered total count
+    count_query = "SELECT COUNT(*) " + base_query + conditions
+    cursor.execute(count_query, params)
+    filtered_total = cursor.fetchone()[0]
 
-    cursor.execute(query, params)
+    # Query for actual data with ordering, limit, and offset
+    data_query = (
+        "SELECT id, patient_name, upload_timestamp, status, classification, google_drive_id "
+        + base_query + conditions +
+        f" ORDER BY {order_column_name} {order_dir} LIMIT ? OFFSET ?"
+    )
+    # Extend parameters for LIMIT and OFFSET
+    data_params = params.copy()
+    data_params.extend([length, start])
+
+    cursor.execute(data_query, data_params)
     rows = cursor.fetchall()
-
-    cursor.execute("SELECT COUNT(*) FROM files")
-    total_records = cursor.fetchone()[0]
 
     conn.close()
 
-    return rows, total_records
+    return rows, filtered_total
 
 def generate_user_id():
     """Generate a unique user ID."""

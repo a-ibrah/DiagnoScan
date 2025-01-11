@@ -4,8 +4,27 @@ const queryButtons = document.querySelector('.buttons-wrapper');
 const uploadQueryBtn = document.getElementById('send-query-btn');
 const viewQueryBtn = document.getElementById('label-query-btn');
 
+// Automatically flash alerts after 3 seconds
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      // Use Bootstrap's alert dismissal if available
+      const bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    });
+  }, 3000); // 3000ms = 3 seconds
+});
+
 // Utility function to switch visible screens
 function switchScreen(screenId) {
+  // Remove any existing flash messages
+  const flashContainer = document.getElementById('flash-messages');
+  if(flashContainer) {
+    flashContainer.innerHTML = '';
+  }
+
+  // Now switch screens
   document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('active');
   });
@@ -109,3 +128,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
