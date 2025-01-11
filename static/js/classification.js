@@ -8,6 +8,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitButton = $("#submit-classification");
 
     let selectedClassification = "";
+    // Screen Transition Handler for row clicks on Queued Table
+    $('#slides-table tbody').on('click', 'tr', function () {
+        const rowData = queuedTable.row(this).data();
+        if (rowData) {
+            // Update global selectedRowId when a row is clicked
+            selectedRowId = rowData.id || "";
+
+            // Populate selected patient information
+            $("#patient-id").text(rowData.id || "N/A");
+            $("#patient-name").text(rowData.patient_name || "N/A");
+            $("#patient-timestamp").text(rowData.upload_timestamp || "N/A");
+            $("#patient-status").text(rowData.status || "N/A");
+            $("#patient-link").attr("href", rowData.link || "#");
+
+            // Transition to Screen 2
+            $('#screen-1').hide();
+            $('#screen-2').show();
+            $('.back-link').hide();
+            $('#new-back-button').show();
+        }
+    });
+    
 
     // Malignant Neoplasm Click Handler
     $("#btn-malignant").on("click", function () {

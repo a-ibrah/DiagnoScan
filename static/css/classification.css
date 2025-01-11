@@ -1,25 +1,150 @@
+/* Classification Buttons */
+.button-container {
+  display: flex;
+  justify-content: center; /* Center align horizontally */
+  gap: 15px; /* Add uniform spacing between buttons */
+  flex-wrap: wrap; /* Allow wrapping if needed */
+}
 
 .classify-btn {
-    width: 200px;
-    height: 50px;
-    margin: 0 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-    color: black;
-  }
-  
-  .classify-btn.malignant {
-    background-color: #ffccd5;
-  }
-  
-  .classify-btn.benign {
-    background-color: #ffdccf;
-  }
-  
-  .classify-btn.normal {
-    background-color: #ffedc9;
-  }
+  width: 275px;
+  height: 60px;
+  margin: 0; /* Remove inconsistent margin */
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  color: black;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover and Focus State */
+.classify-btn:hover,
+.classify-btn:focus {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Medium shadow */
+  transform: translateY(-2px); /* Pop effect */
+  outline: none;
+}
+
+/* Active State */
+.classify-btn:active {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Strong shadow */
+  transform: translateY(0); /* Reset pop effect */
+  font-weight: bold;
+}
+
+/* Malignant Button Styles */
+.classify-btn.malignant {
+  background-color: #FFCCD5; /* Default color */
+}
+.classify-btn.malignant:hover,
+.classify-btn.malignant:focus {
+  background-color: #FFAAB5; /* More saturated on hover */
+}
+.classify-btn.malignant:active {
+  background-color: #FF8895; /* Stronger saturation when active */
+}
+
+/* Benign Button Styles */
+.classify-btn.benign {
+  background-color: #FFDCCF;
+}
+.classify-btn.benign:hover,
+.classify-btn.benign:focus {
+  background-color: #FFC8B5;
+}
+.classify-btn.benign:active {
+  background-color: #FFA280;
+}
+
+/* Normal Button Styles */
+.classify-btn.normal {
+  background-color: #FFEDC9;
+}
+.classify-btn.normal:hover,
+.classify-btn.normal:focus {
+  background-color: #FFE4A5;
+}
+.classify-btn.normal:active {
+  background-color: #FFD580;
+}
+
+/* General input and dropdown styles */
+input[type="text"], select {
+  width: 100%; /* Full width */
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+  border-color: #5B9BD5; /* Focus border color */
+  box-shadow: 0 0 5px rgba(91, 155, 213, 0.5); /* Highlight on focus */
+  outline: none;
+}
+
+/* Submit Button */
+#submit-classification {
+  background-color: #067dec !important;
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Default light shadow */
+}
+
+#submit-classification:hover {
+  transform: translateY(-2px); /* Pop effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+}
+
+#submit-classification:active {
+  transform: translateY(0); /* Reset pop effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Default shadow */
+}
+
+/* Labels */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Dropdown options */
+select {
+  appearance: none; /* Remove default arrow */
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5" fill="black"><polygon points="0,0 4,0 2,5"/></svg>') no-repeat right 10px center;
+  background-color: #fff;
+  background-size: 10px;
+}
+
+/* Ensure consistent spacing for elements */
+div {
+  margin-bottom: 20px;
+}
+
+#selected-patient-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping if space is limited */
+  justify-content: space-between; /* Space between fields */
+  gap: 20px; /* Adjust gap between fields */
+}
+
+#selected-patient-container p {
+  margin: 0; /* Remove extra margin for clean alignment */
+  flex: 1 1 calc(25% - 20px); /* Flexible width for each field */
+  max-width: calc(25% - 20px); /* Limit width for smaller screens */
+  text-align: left; /* Align text inside fields */
+}
