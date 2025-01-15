@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- Screen 1: Main Content -->
 <div id="screen-1" class="screen active">
   
   <!-- Select Option -->
-  <h3 class="text-center mb-3">Step 1: What Would You Like to Do?</h3>
+  <h3 class="text-center mb-3">What Would You Like to Do?</h3>
 
   <div class="d-flex justify-content-center mb-4 gap-3">
     <button id="contribute-btn" class="btn btn-lg action-btn contribute-btn">Contribute to Database</button>
@@ -14,7 +13,7 @@
 
   <!-- File Upload -->
   <div id="upload-section" class="mt-4" style="display: none;">
-    <h3 class="text-center mb-3">Step 2: Upload Images</h3>
+    <h3 class="text-center mb-3">Upload Images</h3>
     <form id="upload-form" method="POST" action="{{ url_for('core_bp.index') }}" enctype="multipart/form-data">
       <div class="d-flex justify-content-center gap-5">
         <!-- Slide Upload -->
@@ -170,20 +169,24 @@
     </form>
   </div>
 
-  <!-- Query Buttons -->
-  <div class="d-flex justify-content-center gap-5">
-    <div class="buttons-wrapper" style="display: none;">
-      <button id="send-query-btn" class="query-btn">
-        Send to Query<br> <small>(For Lab Technicians)</small>
-      </button>
-      
-      <div class="separator">OR</div>
+<!-- Query Section -->
+<div id="query-section" class="screen mt-4" >
+  <!-- Choose Role Text -->
+  <h3 class="text-center mb-3">Choose Role</h3>
 
-      <button id="label-query-btn" class="query-btn">
-        Label Query<br><small>(For Physicians)</small>
-      </button>
-    </div>
+  <!-- Query Buttons -->
+  <div class="buttons-wrapper d-flex justify-content-center gap-5 flex-wrap">
+    <button id="send-query-btn" class="query-btn">
+      Send to Query<br><small>(For Lab Technicians)</small>
+    </button>
+
+    <div class="separator">OR</div>
+
+    <button id="label-query-btn" class="query-btn">
+      Label Query<br><small>(For Physicians)</small>
+    </button>
   </div>
+</div>
     
   <!-- Display an error message if an invalid file is uploaded -->
   {% if error %}
