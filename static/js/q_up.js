@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return; // Exit if no file is selected
             }
         
+            showLoading(); // Show the loading animation
+        
             const formData = new FormData();
             formData.append("file", file);
         
@@ -30,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(res => res.json())
                 .catch(() => {})
                 .finally(() => {
+                    hideLoading(); // Hide the loading animation
                     fileInput.value = ""; // Reset file input
                     slideStatus.textContent = "No file uploaded";
                 });
