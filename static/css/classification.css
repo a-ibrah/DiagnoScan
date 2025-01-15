@@ -113,38 +113,10 @@ input[type="text"]:focus, select:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Default shadow */
 }
 
-/* Labels */
-label {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
 /* Dropdown options */
 select {
-  appearance: none; /* Remove default arrow */
+  appearance: none;
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5" fill="black"><polygon points="0,0 4,0 2,5"/></svg>') no-repeat right 10px center;
   background-color: #fff;
   background-size: 10px;
-}
-
-/* Ensure consistent spacing for elements */
-div {
-  margin-bottom: 20px;
-}
-
-#selected-patient-container {
-  display: flex;
-  flex-wrap: wrap; /* Allow wrapping if space is limited */
-  justify-content: space-between; /* Space between fields */
-  gap: 20px; /* Adjust gap between fields */
-}
-
-#selected-patient-container p {
-  margin: 0; /* Remove extra margin for clean alignment */
-  flex: 1 1 calc(25% - 20px); /* Flexible width for each field */
-  max-width: calc(25% - 20px); /* Limit width for smaller screens */
-  text-align: left; /* Align text inside fields */
 }

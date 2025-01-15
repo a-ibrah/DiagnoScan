@@ -141,3 +141,9 @@ def view_page():
 @core_bp.route("/upload")
 def upload_page():
     return render_template("upload.html")
+
+@core_bp.route("/predict")
+def predict_page():
+    prediction = request.args.get("prediction", None)
+    confidence = request.args.get("confidence", None)
+    return render_template("predict.html", prediction=prediction, confidence=confidence)

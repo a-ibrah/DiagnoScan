@@ -8,26 +8,32 @@ analyzeBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
   if (predictBtn.classList.contains("active") && slideFileInput.files.length > 0) {
-    // Prepare form data and send prediction request
-    const formData = new FormData(document.getElementById("upload-form"));
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        body: formData,
-      });
+      const formData = new FormData(document.getElementById("upload-form"));
+      try {
+          const response = await fetch("/", {
+              method: "POST",
+              body: formData,
+          });
 
-      if (response.ok) {
-        // Update prediction results and switch screen
-        const data = await response.json();
-        document.getElementById("prediction-text").textContent = data.prediction ?? "No prediction";
-        document.getElementById("confidence-text").textContent = data.confidence ?? "No confidence score";
-        switchScreen("screen-2");
-      } else {
-        console.error("Prediction failed");
+          if (response.ok) {
+              // Parse response JSON to get prediction and confidence
+              const data = await response.json();
+
+              if (data.prediction && data.confidence) {
+                  // Redirect to the predict page with query parameters
+                  window.location.href = `/predict?prediction=${encodeURIComponent(data.prediction)}&confidence=${encodeURIComponent(data.confidence)}`;
+              } else {
+                  console.error("Missing prediction data in response.");
+                  alert("Prediction failed. Please try again.");
+              }
+          } else {
+              console.error("Prediction request failed.");
+              alert("Prediction failed. Please try again.");
+          }
+      } catch (error) {
+          console.error("Error during prediction:", error);
+          alert("An unexpected error occurred. Please try again.");
       }
-    } catch (error) {
-      console.error("Error during prediction:", error);
-    }
   }
 });
 

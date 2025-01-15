@@ -47,6 +47,7 @@
 .table-content {
     display: block; /* Initially visible */
     padding: 15px;
+    padding-bottom: 0px;
 }
 
 /* Apply nowrap styling globally */
@@ -150,4 +151,20 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
+}
+
+/* Ensure proper layout for "Show [NUMBER] entries" */
+.dataTables_length label {
+    display: inline-flex !important; /* Align text and dropdown horizontally */
+    align-items: center; /* Vertically align items */
+    gap: 5px; /* Space between "Show" and the dropdown */
+}
+
+/* Clean dropdown styling without the triangle */
+.dataTables_length select {
+    background: none; /* Remove any background (including triangle) */
+    font-size: 14px; /* Adjust font size */
+    height: auto; /* Ensure height aligns with surrounding text */
+    border: 1px solid #ccc; /* Consistent border */
+    border-radius: 4px; /* Optional rounded corners */
 }

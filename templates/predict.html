@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="text-center mt-4">
+    <h3>Prediction Results</h3>
+    <p><strong>Prediction:</strong> <span id="prediction-text">{{ prediction }}</span></p>
+    <p><strong>Confidence:</strong> <span id="confidence-text">{{ confidence }}</span></p>
+    <button class="btn btn-secondary mt-3" onclick="window.location.href='/'">Back</button>
+</div>
+{% endblock %}
