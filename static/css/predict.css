@@ -1,0 +1,47 @@
+/* Bubble container for prediction and confidence */
+.bubble-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Spacing between bubbles */
+}
+
+/* Styling for individual bubbles */
+.bubble {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    text-align: center;
+    max-width: 300px;
+    width: 100%;
+}
+
+.bubble p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.bubble strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+/* Back button consistency */
+.prediction-screen .btn {
+    align-self: flex-start; /* Align back button to top-left */
+}
+
+/* Center alignment adjustments for smaller screens */
+@media (max-width: 768px) {
+    .bubble {
+        padding: 1rem 1.5rem;
+    }
+
+    .bubble p {
+        font-size: 1rem;
+    }
+}
